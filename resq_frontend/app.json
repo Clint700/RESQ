@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ResQ",
+    "slug": "resq",
+    "version": "1.0.0",
+    "entryPoint": "./App.js",
+    "platforms": ["ios", "android", "web"],
+    "orientation": "portrait",
+    "jsEngine": "hermes"
+  }
+}
