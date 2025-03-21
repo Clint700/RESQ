@@ -7,6 +7,8 @@ export default function Layout() {
       <Stack.Screen name="emergency-setup" options={{ title: "Setup Contacts" }} />
       <Stack.Screen name="chatbot" options={{ title: "First Aid Chatbot" }} />
       <Stack.Screen name="location-tracker" options={{ title: "Location Tracker" }} />
+      <Stack.Screen name="signup" options={{ title: "Sign Up" }} />
+      <Stack.Screen name="login" options={{ title: "Login" }} />
     </Stack>
   );
 }

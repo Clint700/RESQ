@@ -6,6 +6,8 @@ export type RootStackParamList = {
   'emergency-setup': undefined;
   'chatbot': undefined;
   'location-tracker': undefined;
+  'signup': undefined;
+  'login': undefined;
 };
 
 // Define a type for navigation prop

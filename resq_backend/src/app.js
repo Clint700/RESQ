@@ -5,8 +5,11 @@ const emergencyRoutes = require('./routes/emergencyRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const botRoutes = require('./routes/botRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
+const cors = require('cors');
+
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Routes
