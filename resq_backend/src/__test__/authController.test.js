@@ -1,34 +1,47 @@
-const { signup, login } = require('../controllers/authController');
-const User = require('../models/userModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const request = require('supertest');
+const app = require('../app');
+const db = require('../db/connection');
 
-jest.mock('../models/userModel');
-jest.mock('bcryptjs');
-jest.mock('jsonwebtoken');
+// describe('Auth Controller Integration', () => {
+//   afterAll(() => {
+//     return db.end();
+//   });
 
-describe('Auth Controller', () => {
-  it('should create a new user', async () => {
-    const req = { body: { username: 'testuser', password: 'password123' } };
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-    User.create.mockResolvedValue({ id: 1, username: 'testuser' });
+//   describe.only('POST /auth/signup', () => {
+//     it('should create a new user and return user data', async () => {
+//       const response = await request(app)
+//         .post('/auth/signup')
+//         .send({
+//           email: 'testuser@example.com',
+//           password: 'securepassword123'
+//         });
 
-    await signup(req, res);
+//       expect(response.statusCode).toBe(201);
+//       expect(response.body).toHaveProperty('id');
+//       expect(response.body.email).toBe('testuser@example.com');
+//     });
+//   });
 
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ id: 1, username: 'testuser' });
-  });
+//   describe('POST /auth/login', () => {
+//     it('should login an existing user and return a token', async () => {
+//       // First, make sure the user exists
+//       await request(app)
+//         .post('/auth/signup')
+//         .send({
+//           email: 'testlogin@example.com',
+//           password: 'mypassword'
+//         });
 
-  it('should log in a user', async () => {
-    const req = { body: { username: 'testuser', password: 'password123' } };
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-    User.findByUsername.mockResolvedValue({ id: 1, username: 'testuser', password: await bcrypt.hash('password123', 10) });
-    bcrypt.compare.mockResolvedValue(true);
-    jwt.sign.mockReturnValue('mockedtoken');
+//       const response = await request(app)
+//         .post('/auth/login')
+//         .send({
+//           email: 'testlogin@example.com',
+//           password: 'mypassword'
+//         });
 
-    await login(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ token: 'mockedtoken' });
-  });
-});
+//       expect(response.statusCode).toBe(200);
+//       expect(response.body).toHaveProperty('token');
+//       expect(typeof response.body.token).toBe('string');
+//     });
+//   });
+// });

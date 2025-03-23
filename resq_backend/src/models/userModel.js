@@ -1,20 +1,23 @@
-const db = require('../config/db');
+const db = require('../db/connection');
 const bcrypt = require('bcryptjs');
 
 const User = {};
 
-User.create = async (username, password) => {
+User.create = async (email, password) => {
   const hashedPassword = await bcrypt.hash(password, 10);
-  const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
-  const values = [username, hashedPassword];
+  const query = `
+    INSERT INTO users (email, password)
+    VALUES ($1, $2)
+    RETURNING id, email;
+  `;
+  const values = [email, hashedPassword];
   const result = await db.query(query, values);
   return result.rows[0];
 };
 
-User.findByUsername = async (username) => {
-  const query = 'SELECT * FROM users WHERE username = $1';
-  const values = [username];
-  const result = await db.query(query, values);
+User.findByEmail = async (email) => {
+  const query = `SELECT * FROM users WHERE email = $1;`;
+  const result = await db.query(query, [email]);
   return result.rows[0];
 };
 
