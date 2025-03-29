@@ -9,7 +9,7 @@ exports.sendSMS = async (to, body) => {
   try {
     const message = await client.messages.create({
       body,
-      from: '+1234567890', // Your Twilio phone number
+      from: '+1234567890',
       to,
     });
     return message;

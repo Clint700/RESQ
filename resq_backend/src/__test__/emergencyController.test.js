@@ -1,38 +1,164 @@
-// const { triggerEmergency, updateEmergencyStatus } = require('../controllers/emergencyController');
-// const Alert = require('../models/alertModel');
+const request = require('supertest');
+const app = require('../app');
+const db = require('../db/connection');
+const seed = require('../db/seed/seed');
+const e = require('express');
 
-// jest.mock('../models/alertModel');
+let authToken;
+let alertId;
 
-// describe('Emergency Controller', () => {
-//   afterEach(() => {
-//     jest.clearAllMocks();
-//   });
+beforeAll(async () => {
+    await seed();
 
-//   it('should trigger an emergency alert', async () => {
-//     const req = { body: { userId: 1, location: '123 Main St' } };
-//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-//     const mockAlert = { id: 1, userId: 1, location: '123 Main St', status: 'active' };
+    await request(app)
+        .post('/auth/signup')
+        .send({
+            email: 'emergencytest@example.com',
+            password: 'securepassword123',
+        });
 
-//     Alert.create.mockResolvedValue(mockAlert);
+    const res = await request(app)
+        .post('/auth/login')
+        .send({
+            email: 'emergencytest@example.com',
+            password: 'securepassword123',
+        });
 
-//     await triggerEmergency(req, res);
+    if (res.status !== 200) {
+        console.error("Login failed:", res.body);
+        throw new Error("Authentication failed for emergency tests.");
+    }
 
-//     expect(Alert.create).toHaveBeenCalledWith(1, '123 Main St', 'active');
-//     expect(res.status).toHaveBeenCalledWith(201);
-//     expect(res.json).toHaveBeenCalledWith(mockAlert);
-//   });
+    authToken = res.body.token;
+});
 
-//   it('should update the status of an emergency alert', async () => {
-//     const req = { params: { alertId: 1 }, body: { status: 'resolved' } };
-//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-//     const mockAlert = { id: 1, userId: 1, location: '123 Main St', status: 'resolved' };
+afterAll(() => db.end());
 
-//     Alert.updateStatus.mockResolvedValue(mockAlert);
+describe('/alerts', () => {
+    it('POST - should trigger an emergency alert', async () => {
+        const res = await request(app)
+            .post('/alerts/trigger')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+                message: "Help! I'm in danger!",
+                location: {
+                    latitude: 37.7749,
+                    longitude: -122.4194,
+                },
+                status: "active"
+            });
 
-//     await updateEmergencyStatus(req, res);
+        expect(res.statusCode).toBe(201);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                created_at: expect.any(String),
+                id: 3,
+                message: expect.any(String),
+                location: expect.any(String),
+                status: "active",
+                user_id: expect.any(Number),
+            })
+        );
+    });
 
-//     expect(Alert.updateStatus).toHaveBeenCalledWith(1, 'resolved');
-//     expect(res.status).toHaveBeenCalledWith(200);
-//     expect(res.json).toHaveBeenCalledWith(mockAlert);
-//   });
-// });
+    it('GET - should return all alerts for the user', async () => {
+        const res = await request(app)
+            .get('/alerts')
+            .set('Authorization', `Bearer ${authToken}`);
+
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toBeGreaterThan(0);
+    });
+
+    it('GET - should return a single alert by ID', async () => {
+        const res = await request(app)
+            .get(`/alerts/3`)
+            .set('Authorization', `Bearer ${authToken}`);
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                created_at: expect.any(String),
+                id: 3,
+                message: expect.any(String),
+                location: expect.any(String),
+                status: expect.any(String),
+                user_id: expect.any(Number),
+            })
+        );
+    });
+
+    it('PATCH - should update the status of an emergency alert', async () => {
+        const res = await request(app)
+            .patch(`/alerts/3`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+                message: "Help! I'm in serious danger!",
+                location: {
+                    latitude: 57.7749,
+                    longitude: -133.4194,
+                },
+                status: "resolved"
+            });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                created_at: expect.any(String),
+                id: expect.any(Number),
+                message: expect.any(String),
+                location: expect.any(String),
+                status: expect.any(String),
+                user_id: expect.any(Number),
+            })
+        );
+    });
+
+    it('PATCH - should return 404 for non-existent alert', async () => {
+        const res = await request(app)
+            .patch('/alerts/99999')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+                message: "Help! I'm in serious danger!",
+                location: {
+                    latitude: 57.7749,
+                    longitude: -133.4194,
+                },
+                status: "resolved"
+            });
+
+        expect(res.statusCode).toBe(404);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                message: "Alert not found"
+            })
+        );
+    });
+
+    it('DELETE - should delete an alert', async () => {
+        const res = await request(app)
+            .delete(`/alerts/3`)
+            .set('Authorization', `Bearer ${authToken}`);
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                message: "Alert deleted successfully"
+            })
+        );
+    });
+
+    it('DELETE - should return 404 if alert does not exist', async () => {
+        const res = await request(app)
+            .delete(`/alerts/99999`)
+            .set('Authorization', `Bearer ${authToken}`);
+
+        expect(res.statusCode).toBe(404);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                message: "Alert not found"
+            })
+        );
+    });
+});

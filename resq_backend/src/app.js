@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/emergency', emergencyRoutes);
+app.use('/alerts', emergencyRoutes);
 app.use('/contacts', contactRoutes);
 app.use('/bot', botRoutes);
 

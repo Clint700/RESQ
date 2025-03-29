@@ -1,11 +1,11 @@
 module.exports = [
     {
-      email: 'testuser1@example.com',
+      message: 'Alert 1',
       location: '123 Main St',
       status: 'active',
     },
     {
-      email: 'testuser2@example.com',
+      message: 'Alert 2',
       location: '456 Elm St',
       status: 'resolved',
     },

@@ -18,7 +18,7 @@ const seed = async () => {
   await db.query(`
     CREATE TABLE emergency_contacts (
       id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id),
+      email VARCHAR(255) NOT NULL,
       name VARCHAR(100) NOT NULL,
       phone_number VARCHAR(20) NOT NULL
     );
@@ -28,13 +28,14 @@ const seed = async () => {
     CREATE TABLE alerts (
       id SERIAL PRIMARY KEY,
       user_id INTEGER REFERENCES users(id),
+      message VARCHAR(255),
       location VARCHAR(255) NOT NULL,
       status VARCHAR(50) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
 
-  // Insert users
+
   const userValues = userData.map(({ email, password }) => [email, password]);
   const insertUsersQuery = format(
     "INSERT INTO users (email, password) VALUES %L RETURNING *;",
@@ -47,31 +48,27 @@ const seed = async () => {
     userEmailToId[user.email] = user.id;
   });
 
-  // Insert contacts
   const contactValues = contactData.map(({ email, name, phone_number }) => [
-    userEmailToId[email],
+    email,
     name,
     phone_number,
   ]);
   const insertContactsQuery = format(
-    "INSERT INTO emergency_contacts (user_id, name, phone_number) VALUES %L;",
+    "INSERT INTO emergency_contacts (email, name, phone_number) VALUES %L;",
     contactValues
   );
   await db.query(insertContactsQuery);
 
-  // Insert alerts
-  const alertValues = alertData.map(({ email, location, status }) => [
-    userEmailToId[email],
+  const alertValues = alertData.map(({ message, location, status }) => [
+    message,
     location,
     status,
   ]);
   const insertAlertsQuery = format(
-    "INSERT INTO alerts (user_id, location, status) VALUES %L;",
+    "INSERT INTO alerts (message, location, status) VALUES %L;",
     alertValues
   );
   await db.query(insertAlertsQuery);
-
-  console.log("Database seeded successfully");
 };
 
 module.exports = seed;

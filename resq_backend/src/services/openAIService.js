@@ -2,14 +2,14 @@ const axios = require('axios');
 require('dotenv').config();
 
 const API_KEY = process.env.OPENAI_API_KEY;
-const API_URL = 'https://api.openai.com/v1/chat/completions'; // Updated endpoint
+const API_URL = 'https://api.openai.com/v1/chat/completions'; 
 
 exports.getCompletion = async (prompt) => {
   try {
     const response = await axios.post(
       API_URL,
       {
-        model: "gpt-3.5-turbo", // Use latest model
+        model: "gpt-3.5-turbo", 
         messages: [{ role: "user", content: prompt }],
         max_tokens: 100
       },
@@ -21,7 +21,6 @@ exports.getCompletion = async (prompt) => {
       }
     );
 
-    // Extract response correctly
     const aiResponse = response.data.choices[0].message.content.trim();
     console.log("AI Response:", aiResponse);
     return { response: aiResponse };
