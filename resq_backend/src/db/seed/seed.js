@@ -3,6 +3,7 @@ const db = require("../connection");
 const userData = require("../data/test-data/users");
 const contactData = require("../data/test-data/contacts");
 const alertData = require("../data/test-data/alerts");
+ 
 
 const seed = async () => {
   await db.query(`DROP TABLE IF EXISTS alerts, emergency_contacts, users CASCADE;`);
