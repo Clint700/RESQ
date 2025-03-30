@@ -9,6 +9,8 @@ export default function Layout() {
       <Stack.Screen name="location-tracker" options={{ title: "Location Tracker" }} />
       <Stack.Screen name="signup" options={{ title: "Sign Up" }} />
       <Stack.Screen name="login" options={{ title: "Login" }} />
+      <Stack.Screen name="about" options={{ title: "About" }} />
+      <Stack.Screen name="mapscreen" options={{ title: "" }} />
     </Stack>
   );
 }

@@ -8,6 +8,8 @@ export type RootStackParamList = {
   'location-tracker': undefined;
   'signup': undefined;
   'login': undefined;
+  'about': undefined;
+  'mapscreen': undefined;
 };
 
 // Define a type for navigation prop
