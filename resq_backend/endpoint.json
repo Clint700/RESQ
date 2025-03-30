@@ -1,0 +1,239 @@
+{
+  "endpoints": [
+    {
+      "path": "/auth/signup",
+      "method": "POST",
+      "description": "Create a new user",
+      "exampleRequestBody": {
+        "email": "user@example.com",
+        "password": "strongpassword123"
+      },
+      "exampleResponse": {
+        "status": "201",
+        "body": {
+          "id": 1,
+          "email": "user@example.com"
+        }
+      }
+    },
+    {
+      "path": "/auth/login",
+      "method": "POST",
+      "description": "Login a user",
+      "exampleRequestBody": {
+        "email": "user@example.com",
+        "password": "strongpassword123"
+      },
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "email": "user@example.com",
+          "token": "jwt_token_here"
+        }
+      }
+    },
+    {
+      "path": "/contacts/add",
+      "method": "POST",
+      "description": "Create a new contact",
+      "exampleRequestBody": {
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "phone_number": "123-456-7890"
+      },
+      "exampleResponse": {
+        "status": "201",
+        "body": {
+          "id": 1,
+          "name": "John Doe",
+          "email": "johndoe@example.com",
+          "phone_number": "123-456-7890"
+        }
+      }
+    },
+    {
+      "path": "/contacts",
+      "method": "GET",
+      "description": "Retrieve all contacts",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": [
+          {
+            "id": 1,
+            "name": "John Doe",
+            "email": "johndoe@example.com",
+            "phone_number": "123-456-7890"
+          },
+          {
+            "id": 2,
+            "name": "Jane Smith",
+            "email": "janesmith@example.com",
+            "phone_number": "987-654-3210"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/contacts/:id",
+      "method": "GET",
+      "description": "Retrieve a single contact by ID",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "id": 1,
+          "name": "John Doe",
+          "email": "johndoe@example.com",
+          "phone_number": "123-456-7890"
+        }
+      }
+    },
+    {
+      "path": "/contacts/:id",
+      "method": "PATCH",
+      "description": "Update an existing contact",
+      "exampleRequestBody": {
+        "name": "John Doe Updated",
+        "email": "john.doe.updated@example.com",
+        "phone_number": "321-654-9870"
+      },
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "id": 1,
+          "name": "John Doe Updated",
+          "phone_number": "321-654-9870"
+        }
+      }
+    },
+    {
+      "path": "/contacts/:id",
+      "method": "DELETE",
+      "description": "Delete a contact",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "message": "Contact deleted successfully"
+        }
+      }
+    },
+    {
+      "path": "/alerts/trigger",
+      "method": "POST",
+      "description": "Trigger an emergency alert",
+      "exampleRequestBody": {
+        "message": "Fire in the building",
+        "location": {
+          "latitude": 40.7128,
+          "longitude": -74.0060
+        },
+        "status": "urgent"
+      },
+      "exampleResponse": {
+        "status": "201",
+        "body": {
+          "created_at": "2025-03-30T12:00:00Z",
+          "id": 1,
+          "message": "Fire in the building",
+          "location": "40.7128, -74.0060",
+          "status": "urgent",
+          "user_id": 1
+        }
+      }
+    },
+    {
+      "path": "/alerts",
+      "method": "GET",
+      "description": "Retrieve all alerts for the user",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": [
+          {
+            "id": 1,
+            "message": "Fire in the building",
+            "location": "40.7128, -74.0060",
+            "status": "urgent",
+            "user_id": 1
+          },
+          {
+            "id": 2,
+            "message": "Car accident on the highway",
+            "location": "40.730610, -73.935242",
+            "status": "normal",
+            "user_id": 1
+          }
+        ]
+      }
+    },
+    {
+      "path": "/alerts/:id",
+      "method": "GET",
+      "description": "Retrieve a single alert by ID",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "created_at": "2025-03-30T12:00:00Z",
+          "id": 1,
+          "message": "Fire in the building",
+          "location": "40.7128, -74.0060",
+          "status": "urgent",
+          "user_id": 1
+        }
+      }
+    },
+    {
+      "path": "/alerts/:id",
+      "method": "PATCH",
+      "description": "Update the status of an emergency alert",
+      "exampleRequestBody": {
+        "message": "Updated emergency message",
+        "location": {
+          "latitude": 40.7128,
+          "longitude": -74.0060
+        },
+        "status": "resolved"
+      },
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "created_at": "2025-03-30T12:00:00Z",
+          "id": 1,
+          "message": "Updated emergency message",
+          "location": "40.7128, -74.0060",
+          "status": "resolved",
+          "user_id": 1
+        }
+      }
+    },
+    {
+      "path": "/alerts/:id",
+      "method": "DELETE",
+      "description": "Delete an alert",
+      "exampleRequestBody": null,
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "message": "Alert deleted successfully"
+        }
+      }
+    },
+    {
+      "path": "/bot/first-aid",
+      "method": "POST",
+      "description": "Get first aid guidance from the AI chatbot",
+      "exampleRequestBody": {
+        "query": "How to treat a burn?"
+      },
+      "exampleResponse": {
+        "status": "200",
+        "body": {
+          "response": "Apply cool water to the affected area."
+        }
+      }
+    }
+  ]
+}
