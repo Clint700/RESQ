@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { theme } from '../styles/theme';
 import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-//import { useNavigation } from 'expo-router'; //removed
-import ChatbotScreen from '../components/ChatbotScreen'; // Import the ChatbotScreen component
+import ChatbotScreen from '../screens/ChatbotScreen';
+import EmergencyScreen from '../screens/EmergencyScreen';
 
 
 let MapView: React.ComponentType<any> | null = null;
@@ -45,7 +45,6 @@ const MapScreen = () => {
 
                 } catch (error) {
                     console.error("Failed to load react-native-maps or expo-location in React Native:", error);
-                    // Handle the error appropriately, e.g., set a flag to indicate map is not supported
                     MapView = null;
                     Marker = null;
                     Location = null;
@@ -158,9 +157,9 @@ const MapScreen = () => {
                                         <TouchableOpacity onPress={() => {
                                             //navigation.navigate('Chatbot'); // removed
                                         }}>
-                                            <View style={{ backgroundColor: 'blue', padding: 5, borderRadius: 10 }}>
-                                                <Text style={{ color: 'white' }}>Chat</Text>
-                                            </View>
+                                            {/* <View style={{ backgroundColor: 'blue', padding: 5, borderRadius: 10 }}>
+                                                <Text style={{ color: 'white' }}></Text>
+                                            </View> */}
                                         </TouchableOpacity>
                                     </Marker>
                                 )}
@@ -230,12 +229,6 @@ const styles = StyleSheet.create({
 
 
 // Placeholder components for other tabs
-const EmergencyScreen = () => (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Emergency Screen</Text>
-    </View>
-);
-
 const ContactScreen = () => (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Contact Screen</Text>
@@ -263,21 +256,33 @@ const TabbedHomeScreen = () => {
                     // You can return any component that you like here!
                     return <Icon name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: theme.colors.primary,
-                tabBarInactiveTintColor: theme.colors.textSecondary,
+                tabBarActiveTintColor: 'gray',
+                tabBarInactiveTintColor: 'black',
                 tabBarStyle: {
                     backgroundColor: theme.colors.background,
-                    borderTopColor: theme.colors.inputBorder,
+                    borderTopColor: 'transparent',
                 },
                 tabBarLabelStyle: {
                     fontSize: theme.fontSize.small,
                 }
             })}
         >
-            <Tab.Screen name="Home" component={MapScreen} options={{ title: 'Map' }} />
-            <Tab.Screen name="Chatbot" component={ChatbotScreen} />
-            <Tab.Screen name="Emergency" component={EmergencyScreen} />
-            <Tab.Screen name="Contact" component={ContactScreen} />
+            <Tab.Screen name="Home" component={MapScreen} options={{
+                title: "Map",
+                headerShown: false,
+            }} />
+            <Tab.Screen name="Chatbot" component={ChatbotScreen} options={{
+                title: "Chatbot",
+                headerShown: false,
+            }} />
+            <Tab.Screen name="Emergency" component={EmergencyScreen} options={{
+                title: "Emergency",
+                headerShown: true,
+            }} />
+            <Tab.Screen name="Contact" component={ContactScreen} options={{
+                title: "Contact",
+                headerShown: true,
+            }} />
         </Tab.Navigator>
     );
 };

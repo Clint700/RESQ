@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.background,
-        marginTop: Platform.OS === 'android' ? 25 : -65,
+        marginTop: Platform.OS === 'android' ? 25 : 5,
     },
     header: {
         backgroundColor: theme.colors.primary,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
     },
     userMessage: {
-        backgroundColor: theme.colors.primaryLight,
+        backgroundColor: theme.colors.primary,
         alignSelf: 'flex-end',
     },
     botMessage: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     userText: {
-        color: theme.colors.buttonText,
+        color: 'white',
         fontSize: theme.fontSize.medium,
     },
     botText: {
@@ -243,6 +243,9 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: theme.colors.inputBorder,
         backgroundColor: 'rgba(240,240,240,0.9)',
+        marginBottom: Platform.OS === 'ios' ? -35 : 10,
+        borderWidth: 2,
+        borderColor: theme.colors.inputBorder,
     },
     input: {
         flex: 1,

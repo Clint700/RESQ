@@ -51,7 +51,7 @@ const theme: Theme = {
         background: '#f0f0f0',  // Light gray background
         inputBackground: '#fff',
         inputBorder: '#d3d3d3',
-        buttonText: '#000', // Black button text
+        buttonText: '#fff', // Black button text
         link: '#3498db',
     },
     spacing: {
