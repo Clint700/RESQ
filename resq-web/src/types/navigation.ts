@@ -1,16 +1,16 @@
+// src/types/navigation.ts
 import { StackNavigationProp } from '@react-navigation/stack';
 
-// Define all available routes
+// 1. Define all available routes and their params (if any)
 export type RootStackParamList = {
-  'index': undefined;
-  'emergency-setup': undefined;
-  'chatbot': undefined;
-  'location-tracker': undefined;
-  'signup': undefined;
-  'login': undefined;
-  'about': undefined;
-  'mapscreen': undefined;
+  index: undefined;
+  emergency: undefined;
+  chatbot: undefined;
+  signup: undefined;
+  login: undefined;
+  about: undefined;
+  map: undefined;
 };
 
-// Define a type for navigation prop
+// 2. Define a type for the navigation prop used throughout the app
 export type NavigationProp = StackNavigationProp<RootStackParamList>;

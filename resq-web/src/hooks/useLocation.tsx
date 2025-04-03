@@ -1,24 +1,26 @@
-import { useState, useEffect } from 'react';
-import { getLocation } from '../services/location';
-import { LocationObjectCoords } from 'expo-location';
+// hooks/useUserLocation.ts
+import { useEffect, useState } from 'react';
+import { getLocation } from '@services/location';
 
-const useLocation = () => {
-  const [location, setLocation] = useState<LocationObjectCoords | null>(null);
+export const useUserLocation = () => {
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const loc = await getLocation();
-        setLocation(loc);
-      } catch (error) {
-        console.error(error);
+        const coords = await getLocation();
+        setLocation(coords);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchLocation();
   }, []);
 
-  return location;
+  return { location, loading, error };
 };
-
-export default useLocation;

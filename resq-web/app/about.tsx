@@ -1,76 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Platform } from 'react-native';
-
-// Theme Definition (Adaptable for Web)
-interface Theme {
-    colors: {
-        primary: string;
-        primaryLight: string;
-        secondary: string;
-        text: string;
-        textSecondary: string;
-        background: string;
-        inputBackground: string;
-        inputBorder: string;
-        buttonText: string;
-        link: string;
-    };
-    spacing: {
-        small: number;
-        medium: number;
-        large: number;
-        xLarge: number;
-    };
-    fontSize: {
-        small: number;
-        medium: number;
-        large: number;
-        xLarge: number;
-        title: number;
-    };
-    fontWeight: {
-        normal: '400' | '500' | '700';
-        bold: '400' | '500' | '700';
-    };
-    borderRadius: number;
-    inputHeight: number;
-    buttonHeight: number;
-}
-
-const theme: Theme = {
-    colors: {
-        primary: '#2c3e50', // Dark blue - for a professional feel (UK-friendly)
-        primaryLight: '#3498db', // Lighter blue - for accents
-        secondary: '#e74c3c', // Red - for errors or important actions
-        text: '#000',       // Black text
-        textSecondary: '#bdc3c7', // Gray text
-        background: '#f0f0f0',  // Light gray background
-        inputBackground: '#fff',
-        inputBorder: '#d3d3d3',
-        buttonText: '#000', // Black button text
-        link: '#3498db',
-    },
-    spacing: {
-        small: 8,
-        medium: 16,
-        large: 24,
-        xLarge: 32,
-    },
-    fontSize: {
-        small: 12,
-        medium: 14,
-        large: 18,
-        xLarge: 24,
-        title: 28,
-    },
-    fontWeight: {
-        normal: '400',
-        bold: '700',
-    },
-    borderRadius: 8, // Consistent border radius
-    inputHeight: 50,
-    buttonHeight: Platform.OS === 'web' ? 40 : 50, // Adjust button height for web
-};
+import { theme } from '@styles/theme';
 
 const AboutScreen = () => {
     return (
@@ -97,7 +27,7 @@ const AboutScreen = () => {
                     <Text style={styles.bullet}>●</Text> <Text style={styles.featureText}>Emergency SMS Notifications:</Text>  Automated SMS alerts sent to your contacts via Twilio API.
                 </Text>
                 <Text style={styles.paragraph}>
-                   <Text style={styles.bullet}>●</Text>  <Text style={styles.featureText}>AI-Powered First-Aid Chatbot:</Text>  Receive immediate first-aid guidance from our AI chatbot while waiting for help.
+                    <Text style={styles.bullet}>●</Text>  <Text style={styles.featureText}>AI-Powered First-Aid Chatbot:</Text>  Receive immediate first-aid guidance from our AI chatbot while waiting for help.
                 </Text>
                 <Text style={styles.paragraph}>
                     <Text style={styles.bullet}>●</Text> <Text style={styles.featureText}>Emergency Contact Management:</Text> Easily set up and manage your emergency contacts.
@@ -108,12 +38,12 @@ const AboutScreen = () => {
 
                 <Text style={styles.heading}>How It Works</Text>
                 <Text style={styles.paragraph}>
-                   ResQ utilizes a combination of mobile and web technologies to provide comprehensive emergency support:
+                    ResQ utilizes a combination of mobile and web technologies to provide comprehensive emergency support:
                 </Text>
                 <Text style={styles.paragraph}>
                     <Text style={styles.bullet}>●</Text> <Text style={styles.featureText}>React Native Mobile App:</Text>  Users trigger alerts and manage contacts via an intuitive mobile app.
                 </Text>
-                 <Text style={styles.paragraph}>
+                <Text style={styles.paragraph}>
                     <Text style={styles.bullet}>●</Text>  <Text style={styles.featureText}>React.js Web Dashboard:</Text> Administrators monitor requests and manage data.
                 </Text>
                 <Text style={styles.paragraph}>
@@ -140,12 +70,12 @@ const AboutScreen = () => {
                     <Text style={styles.bullet}>●</Text> Authentication: JWT
                 </Text>
                 <Text style={styles.paragraph}>
-                   <Text style={styles.bullet}>●</Text>  APIs: Google Maps, Twilio, OpenAI
+                    <Text style={styles.bullet}>●</Text>  APIs: Google Maps, Twilio, OpenAI
                 </Text>
 
                 <Text style={styles.heading}>Why Choose ResQ?</Text>
                 <Text style={styles.paragraph}>
-                   ResQ stands out by providing a critical service with a focus on speed, reliability, and intelligent assistance.  It is designed for a wide range of users, including travelers, hikers, and anyone who may find themselves in a vulnerable situation.  The integration of AI-powered first-aid guidance ensures that users receive immediate support, even before emergency services arrive.
+                    ResQ stands out by providing a critical service with a focus on speed, reliability, and intelligent assistance.  It is designed for a wide range of users, including travelers, hikers, and anyone who may find themselves in a vulnerable situation.  The integration of AI-powered first-aid guidance ensures that users receive immediate support, even before emergency services arrive.
                 </Text>
 
                 <Text style={styles.heading}>Contact Us</Text>
@@ -171,6 +101,7 @@ const styles = StyleSheet.create({
         color: theme.colors.primary,
         marginBottom: theme.spacing.large,
         textAlign: 'center',
+        fontFamily: theme.fontFamily.regular,
     },
     heading: {
         fontSize: theme.fontSize.xLarge,
@@ -178,18 +109,20 @@ const styles = StyleSheet.create({
         color: theme.colors.primary,
         marginTop: theme.spacing.xLarge,
         marginBottom: theme.spacing.medium,
+        fontFamily: theme.fontFamily.regular,
     },
     paragraph: {
         fontSize: theme.fontSize.medium,
         color: theme.colors.text,
         lineHeight: 24,
         marginBottom: theme.spacing.medium,
+        fontFamily: theme.fontFamily.regular,
     },
     bullet: {
         fontWeight: 'bold',
         color: theme.colors.primary,
     },
-     featureText:{
+    featureText: {
         fontWeight: 'bold',
     },
 });
