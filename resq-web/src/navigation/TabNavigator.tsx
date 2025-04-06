@@ -39,7 +39,7 @@ const TabNavigator = () => {
         name="Emergency"
         component={EmergencyScreen}
         options={{
-          title: '🚨 Emergency Response', // This is the title shown in the header
+          title: 'Emergency🚨', // This is the title shown in the header
           headerShown: true,              // Show the header
           headerTitleAlign: 'center',     // Optional: center the title on iOS
           headerStyle: {
@@ -52,7 +52,23 @@ const TabNavigator = () => {
           },
         }}
       />
-      <Tab.Screen name="Contact" component={ContactScreen} />
+      <Tab.Screen 
+      name="Contact" 
+      component={ContactScreen} 
+      options={{
+        title: '📞 Contacts', // This is the title shown in the header
+        headerShown: true,              // Show the header
+        headerTitleAlign: 'center',     // Optional: center the title on iOS
+        headerStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        headerTitleStyle: {
+          fontSize: theme.fontSize.title,
+          fontWeight: 'bold',
+          color: theme.colors.primary,
+        },
+      }}
+      />
     </Tab.Navigator>
   );
 };

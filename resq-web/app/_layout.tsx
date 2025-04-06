@@ -46,6 +46,7 @@ export default function Layout() {
           <Stack.Screen name="chatbot" />
           <Stack.Screen name="about" />
           <Stack.Screen name="map" />
+          <Stack.Screen name="add-contact" />
         </Stack>
       </LocationProvider>
     </AuthProvider>

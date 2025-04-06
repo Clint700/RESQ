@@ -1,4 +1,3 @@
-// src/components/alerts/AlertCard.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -32,7 +31,12 @@ const AlertCard = ({
   onDelete,
   onSave,
 }: {
-  alert: { message: string; status: 'active' | 'in_progress' | 'resolved'; location: string | { latitude: number; longitude: number }; created_at: string };
+  alert: {
+    message: string;
+    status: 'active' | 'in_progress' | 'resolved';
+    location: string | { latitude: number; longitude: number };
+    created_at: string;
+  };
   onDelete: () => void;
   onSave: (updated: { message: string; status: 'active' | 'in_progress' | 'resolved' }) => void;
 }) => {
@@ -55,11 +59,13 @@ const AlertCard = ({
 
   return (
     <View style={styles.card}>
+      {/* Header */}
       <View style={styles.header}>
         <AlertTriangle size={20} color={theme.colors.primary} />
         <Text style={styles.title}>Emergency Alert</Text>
       </View>
 
+      {/* Location */}
       <View style={styles.row}>
         <MapPin size={16} color={theme.colors.textSecondary} />
         <Text style={styles.text}>
@@ -69,6 +75,7 @@ const AlertCard = ({
         </Text>
       </View>
 
+      {/* Timestamp */}
       <View style={styles.row}>
         <Clock size={16} color={theme.colors.textSecondary} />
         <Text style={styles.text}>
@@ -76,6 +83,7 @@ const AlertCard = ({
         </Text>
       </View>
 
+      {/* Status */}
       <View style={styles.row}>
         <CheckCircle size={16} color={statusColor} />
         {isEditing ? (
@@ -84,7 +92,7 @@ const AlertCard = ({
             style={styles.dropdownToggle}
           >
             <Text style={[styles.text, { flex: 1 }]}>
-              Status: {statusOptions.find((o) => o.value === editedStatus)?.label}
+              {statusOptions.find((o) => o.value === editedStatus)?.label}
             </Text>
             <ChevronDown size={16} color={theme.colors.text} />
           </TouchableOpacity>
@@ -95,6 +103,7 @@ const AlertCard = ({
         )}
       </View>
 
+      {/* Dropdown */}
       {isEditing && showStatusDropdown && (
         <View style={styles.dropdown}>
           {statusOptions.map((option) => (
@@ -112,6 +121,7 @@ const AlertCard = ({
         </View>
       )}
 
+      {/* Message */}
       <View style={styles.editSection}>
         {isEditing ? (
           <TextInput
@@ -120,33 +130,35 @@ const AlertCard = ({
             onChangeText={setEditedMessage}
             multiline
             placeholder="Edit alert message..."
+            placeholderTextColor={theme.colors.textSecondary}
           />
         ) : (
           <Text style={styles.text}>{alert.message}</Text>
         )}
       </View>
 
+      {/* Buttons */}
       <View style={styles.buttonRow}>
         <AppButton
           onPress={onDelete}
-          style={[styles.button, { backgroundColor: theme.colors.secondary }]}
+          style={[styles.button, styles.deleteButton]}
         >
-          <Trash2 size={16} color={theme.colors.buttonText} style={{ marginRight: 8 }} />
+          <Trash2 size={16} color={theme.colors.buttonText} style={{ marginRight: 6 }} />
           Delete
         </AppButton>
 
         <AppButton
           onPress={isEditing ? handleSave : () => setIsEditing(true)}
-          style={[styles.button, { backgroundColor: theme.colors.primaryLight }]}
+          style={[styles.button, styles.editButton]}
         >
           {isEditing ? (
             <>
-              <Save size={16} color={theme.colors.buttonText} style={{ marginRight: 8 }} />
+              <Save size={16} color={theme.colors.buttonText} style={{ marginRight: 6 }} />
               Save
             </>
           ) : (
             <>
-              <Pencil size={16} color={theme.colors.buttonText} style={{ marginRight: 8 }} />
+              <Pencil size={16} color={theme.colors.buttonText} style={{ marginRight: 6 }} />
               Edit
             </>
           )}
@@ -162,7 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.borderRadius,
     padding: theme.spacing.medium,
     marginBottom: theme.spacing.medium,
-    ...theme.shadow.small,
+    ...theme.shadow.medium,
   },
   header: {
     flexDirection: 'row',
@@ -189,8 +201,11 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.inputBorder,
     borderWidth: 1,
     borderRadius: theme.borderRadius,
-    padding: theme.spacing.small,
+    padding: Platform.OS === 'ios' ? 14 : 10,
+    fontSize: theme.fontSize.medium,
     color: theme.colors.text,
+    marginTop: theme.spacing.small,
+    backgroundColor: theme.colors.inputBackground,
   },
   editSection: {
     marginTop: theme.spacing.medium,
@@ -199,35 +214,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: theme.spacing.medium,
+    gap: 8,
   },
   button: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: theme.spacing.small,
+    paddingVertical: Platform.OS === 'ios' ? 12 : theme.spacing.small,
+    paddingHorizontal: theme.spacing.medium,
     borderRadius: theme.borderRadius,
-    flex: 1,
-    marginHorizontal: 4,
+    justifyContent: 'center',
+  },
+  deleteButton: {
+    backgroundColor: theme.colors.secondary,
+  },
+  editButton: {
+    backgroundColor: theme.colors.primaryLight,
   },
   dropdownToggle: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: theme.spacing.small,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderWidth: 1,
     borderColor: theme.colors.inputBorder,
     borderRadius: theme.borderRadius,
+    backgroundColor: theme.colors.inputBackground,
     flex: 1,
   },
   dropdown: {
-    marginTop: 6,
+    marginTop: theme.spacing.small,
     borderWidth: 1,
     borderColor: theme.colors.inputBorder,
     borderRadius: theme.borderRadius,
     backgroundColor: theme.colors.inputBackground,
   },
   dropdownItem: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: theme.spacing.medium,
   },
 });
 

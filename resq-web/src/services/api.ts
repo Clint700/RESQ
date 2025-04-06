@@ -39,11 +39,11 @@ const request = async (
 
 // Services
 export const contactsService = {
-  addContact: (data: any) => request('POST', '/contacts', data, true),
+  addContact: (data: any) => request('POST', '/contacts/add', data, true),
   getContacts: () => request('GET', '/contacts', undefined, true),
-  getContactById: (id: string) => request('GET', `/contacts/${id}`, undefined, true),
-  updateContact: (id: string, data: any) => request('PATCH', `/contacts/${id}`, data, true),
-  deleteContact: (id: string) => request('DELETE', `/contacts/${id}`, undefined, true),
+  getContactById: (id: number) => request('GET', `/contacts/${id}`, undefined, true),
+  updateContact: (id: number, data: any) => request('PATCH', `/contacts/${id}`, data, true),
+  deleteContact: (id: number) => request('DELETE', `/contacts/${id}`, undefined, true),
 };
 
 export const alertsService = {
