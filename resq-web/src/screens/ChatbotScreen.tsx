@@ -6,7 +6,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { botService } from '../services/api';
 import { getAuthToken } from '../utils/auth';
-import { theme } from '../styles/theme'; // Import theme
+import { theme } from '@styles/theme'; 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 interface Message {

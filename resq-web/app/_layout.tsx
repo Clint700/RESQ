@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { AuthProvider } from '@context/AuthContext'; // ✅ Use alias
+import { AuthProvider } from '@context/AuthContext';
+import { LocationProvider } from '@context/LocationContext';
 import { View } from 'react-native';
 
 // Prevent splash from auto-hiding
@@ -35,16 +36,18 @@ export default function Layout() {
 
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        {/* Tabs must match the folder (tabs)/index.tsx */}
-        <Stack.Screen name="(tabs)/index" />
-        <Stack.Screen name="index" />
-        <Stack.Screen name="signup" />
-        <Stack.Screen name="login" />
-        <Stack.Screen name="chatbot" />
-        <Stack.Screen name="about" />
-        <Stack.Screen name="map" />
-      </Stack>
+      <LocationProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          {/* Tabs must match the folder (tabs)/index.tsx */}
+          <Stack.Screen name="(tabs)/index" />
+          <Stack.Screen name="index" />
+          <Stack.Screen name="signup" />
+          <Stack.Screen name="login" />
+          <Stack.Screen name="chatbot" />
+          <Stack.Screen name="about" />
+          <Stack.Screen name="map" />
+        </Stack>
+      </LocationProvider>
     </AuthProvider>
   );
 }

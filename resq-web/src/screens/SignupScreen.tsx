@@ -1,79 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import {
-  View,
-  TextInput,
-  TextInputProps,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Alert,
-  Platform,
-  StyleProp,
-  TextStyle,
-  ViewStyle,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, Alert, Image, } from 'react-native';
 import { useNavigation } from 'expo-router';
 import type { NavigationProp } from '../types/navigation';
-
-
+import AppInput from '@components/common/AppInput';
+import AppButton from '@components/common/AppButton';
+import AppLink from '@components/common/AppLink';
 import { signupUser } from '@services/auth';
 import { theme } from '@styles/theme';
 
 const imageSource = require('../../assets/images/image.png');
-
-// Reusable Input Component
-const AppInput = React.forwardRef<TextInput, TextInputProps>(({ style, ...props }, ref) => {
-  const inputStyle: StyleProp<TextStyle> = [styles.input, style];
-  return (
-    <TextInput
-      ref={ref}
-      style={inputStyle}
-      placeholderTextColor={theme.colors.textSecondary}
-      {...props}
-    />
-  );
-});
-AppInput.displayName = 'AppInput';
-
-interface ButtonProps {
-  children: React.ReactNode;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-  disabled?: boolean;
-}
-const AppButton: React.FC<ButtonProps> = ({
-  children,
-  onPress,
-  style,
-  textStyle,
-  disabled,
-  ...props
-}) => {
-  const buttonStyle = [styles.button, style];
-  const textStyleProp = [styles.buttonText, textStyle];
-  return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress} disabled={disabled} {...props}>
-      <Text style={textStyleProp}>{children}</Text>
-    </TouchableOpacity>
-  );
-};
-
-interface LinkProps {
-  children: React.ReactNode;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-}
-const AppLink: React.FC<LinkProps> = ({ children, onPress, style, textStyle }) => {
-  const linkTextStyle = [styles.linkText, textStyle];
-  return (
-    <TouchableOpacity style={style} onPress={onPress}>
-      <Text style={linkTextStyle}>{children}</Text>
-    </TouchableOpacity>
-  );
-};
 
 const SignupScreen = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -90,17 +25,14 @@ const SignupScreen = () => {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
-
     if (!emailRegex.test(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
       return;
     }
-
     if (!passwordRegex.test(password)) {
       Alert.alert('Error', 'Password must be at least 8 characters long.');
       return;
     }
-
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match.');
       return;
@@ -112,7 +44,6 @@ const SignupScreen = () => {
       Alert.alert('Success', 'Signup successful! Please login.');
       navigation.navigate('login');
     } catch (error: any) {
-      console.error('Error signing up:', error);
       Alert.alert('Error', error.message || 'Failed to sign up. Please try again.');
     } finally {
       setIsLoading(false);
@@ -190,49 +121,13 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.large,
     fontFamily: theme.fontFamily.regular,
   },
-  input: {
-    width: '100%',
-    height: theme.inputHeight,
-    paddingHorizontal: theme.spacing.medium,
-    borderWidth: 1,
-    borderColor: theme.colors.inputBorder,
-    borderRadius: theme.borderRadius,
-    backgroundColor: theme.colors.inputBackground,
-    marginBottom: theme.spacing.small,
-    fontSize: theme.fontSize.medium,
-    color: theme.colors.text,
-    fontFamily: theme.fontFamily.regular,
-  },
   info: {
     fontSize: theme.fontSize.small,
     color: theme.colors.textSecondary,
     marginBottom: theme.spacing.medium,
     width: '100%',
     fontFamily: theme.fontFamily.regular,
-  },
-  button: {
-    width: '100%',
-    height: theme.buttonHeight,
-    backgroundColor: theme.colors.primary,
-    borderRadius: theme.borderRadius,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: theme.spacing.medium,
-  },
-  buttonText: {
-    color: theme.colors.buttonText,
-    fontSize: theme.fontSize.large,
-    fontWeight: 'bold',
-    fontFamily: theme.fontFamily.regular,
-  },
-  link: {
-    marginTop: theme.spacing.medium,
-  },
-  linkText: {
-    color: theme.colors.link,
-    fontSize: theme.fontSize.medium,
-    fontFamily: theme.fontFamily.regular,
-  },
+  }
 });
 
 export default SignupScreen;

@@ -9,9 +9,8 @@ export const loginUser = async (email: string, password: string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, password });
     if (response.status === 200) {
-      const { token } = response.data; // Extract the token from the response
-      await saveAuthToken(token);       // Save the token
-      console.log('Login successful:', response.data);
+      const { token } = response.data;
+      await saveAuthToken(token);     
       return response.data;
     } else {
       throw new Error(`Login failed with status code: ${response.status}`);

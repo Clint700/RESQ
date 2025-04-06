@@ -35,7 +35,23 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Map" component={MapStack} />
       <Tab.Screen name="Chatbot" component={ChatbotScreen} />
-      <Tab.Screen name="Emergency" component={EmergencyScreen} />
+      <Tab.Screen
+        name="Emergency"
+        component={EmergencyScreen}
+        options={{
+          title: '🚨 Emergency Response', // This is the title shown in the header
+          headerShown: true,              // Show the header
+          headerTitleAlign: 'center',     // Optional: center the title on iOS
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+          },
+          headerTitleStyle: {
+            fontSize: theme.fontSize.title,
+            fontWeight: 'bold',
+            color: theme.colors.primary,
+          },
+        }}
+      />
       <Tab.Screen name="Contact" component={ContactScreen} />
     </Tab.Navigator>
   );

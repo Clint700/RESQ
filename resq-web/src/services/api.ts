@@ -49,9 +49,9 @@ export const contactsService = {
 export const alertsService = {
   triggerAlert: (data: any) => request('POST', '/alerts/trigger', data, true),
   getAlerts: () => request('GET', '/alerts', undefined, true),
-  getAlertById: (id: string) => request('GET', `/alerts/${id}`, undefined, true),
-  updateAlertStatus: (id: string, data: any) => request('PATCH', `/alerts/${id}`, data, true),
-  deleteAlert: (id: string) => request('DELETE', `/alerts/${id}`, undefined, true),
+  getAlertById: (id: number) => request('GET', `/alerts/${id}`, undefined, true),
+  updateAlertStatus: (id: number, data: any) => request('PATCH', `/alerts/${id}`, data, true),
+  deleteAlert: (id: number) => request('DELETE', `/alerts/${id}`, undefined, true),
 };
 
 export const botService = {

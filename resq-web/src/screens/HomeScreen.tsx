@@ -1,81 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import { useNavigation } from 'expo-router';
-import { NavigationProp } from '../types/navigation';
-const imageSource = require('../../assets/images/image.png');
+import type { NavigationProp } from '../types/navigation';
+import { theme } from '@styles/theme'; // ✅ Use global theme
 
-interface Theme {
-  colors: {
-    primary: string;
-    primaryLight: string;
-    secondary: string;
-    text: string;
-    textSecondary: string;
-    background: string;
-    inputBackground: string;
-    inputBorder: string;
-    buttonText: string;
-    link: string;
-  };
-  spacing: {
-    small: number;
-    medium: number;
-    large: number;
-    xLarge: number;
-  };
-  fontSize: {
-    small: number;
-    medium: number;
-    large: number;
-    xLarge: number;
-    title: number;
-  };
-  fontWeight: {
-    normal: '400' | '500' | '700';
-    bold: '400' | '500' | '700';
-  };
-  borderRadius: number;
-  inputHeight: number;
-  buttonHeight: number;
-}
-
-const theme: Theme = {
-  colors: {
-    primary: '#2c3e50',
-    primaryLight: '#3498db', // Lighter blue - for accents
-    secondary: '#e74c3c', // Red - for errors or important actions
-    text: '#000',       // Black text
-    textSecondary: '#bdc3c7', // Gray text
-    background: '#f0f0f0',  // Light gray background
-    inputBackground: '#fff',
-    inputBorder: '#d3d3d3',
-    buttonText: '#fff', // Black button text
-    link: '#3498db',
-  },
-  spacing: {
-    small: 8,
-    medium: 16,
-    large: 24,
-    xLarge: 32,
-  },
-  fontSize: {
-    small: 12,
-    medium: 14,
-    large: 18,
-    xLarge: 24,
-    title: 28,
-  },
-  fontWeight: {
-    normal: '400',
-    bold: '700',
-  },
-  borderRadius: 8,
-  inputHeight: 50,
-  buttonHeight: Platform.OS === 'web' ? 40 : 50,
-};
+const imageSource = require('@/../assets/images/image.png');
 
 const HomeScreen = () => {
-  const navigation = useNavigation<NavigationProp>(); // Use the correct type
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <View style={styles.container}>
@@ -109,38 +47,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.background, // Light gray background
+    backgroundColor: theme.colors.background,
     padding: theme.spacing.large,
   },
   logoContainer: {
     alignItems: 'center',
     marginBottom: theme.spacing.xLarge,
   },
-  logo: {
-    fontSize: theme.fontSize.xLarge + 20, // Larger logo
-    fontWeight: 'bold',
-    color: theme.colors.primary, // Dark Blue
-  },
-  logoImage: { // Style for the image
-    width: 150,  // Or whatever size you want
+  logoImage: {
+    width: 150,
     height: 150,
-    resizeMode: 'contain', // Or 'cover', 'stretch', etc.
+    resizeMode: 'contain',
   },
   title: {
     fontSize: theme.fontSize.title,
     fontWeight: 'bold',
-    color: theme.colors.primary, // Dark Blue
+    color: theme.colors.primary,
     marginBottom: theme.spacing.medium,
     textAlign: 'center',
+    fontFamily: theme.fontFamily.regular,
   },
   description: {
     fontSize: theme.fontSize.medium,
-    color: theme.colors.textSecondary, // Gray text
+    color: theme.colors.textSecondary,
     marginBottom: theme.spacing.xLarge,
     textAlign: 'center',
+    fontFamily: theme.fontFamily.regular,
   },
   button: {
-    backgroundColor: theme.colors.primary, // Dark Blue
+    backgroundColor: theme.colors.primary,
     padding: theme.spacing.medium,
     borderRadius: theme.borderRadius,
     width: 200,
@@ -148,9 +83,10 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.medium,
   },
   buttonText: {
-    color: theme.colors.buttonText, // Black
+    color: theme.colors.buttonText,
     fontSize: theme.fontSize.large,
     fontWeight: 'bold',
+    fontFamily: theme.fontFamily.regular,
   },
   secondaryButton: {
     backgroundColor: 'transparent',
@@ -160,12 +96,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: theme.spacing.medium,
     borderWidth: 2,
-    borderColor: theme.colors.primary, // Dark Blue
+    borderColor: theme.colors.primary,
   },
   secondaryButtonText: {
-    color: theme.colors.text, // Black
+    color: theme.colors.text,
     fontSize: theme.fontSize.large,
     fontWeight: 'bold',
+    fontFamily: theme.fontFamily.regular,
   },
 });
 

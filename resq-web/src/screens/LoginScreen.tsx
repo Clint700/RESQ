@@ -1,61 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  TextInputProps,
-  StyleProp,
-  TextStyle,
-  ViewStyle,
-} from 'react-native';
+import { View, Text, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { loginUser } from '@services/auth';
 import { theme } from '@styles/theme';
+import AppInput from '@components/common/AppInput';
+import AppButton from '@components/common/AppButton';
+import AppLink from '@components/common/AppLink';
 
 const imageSource = require('@/../assets/images/image.png');
 
-// 🔁 Reusable Input
-const AppInput = React.forwardRef<TextInput, TextInputProps>(({ style, ...props }, ref) => (
-  <TextInput
-    ref={ref}
-    style={[styles.input, style]}
-    placeholderTextColor={theme.colors.placeholderTextColor}
-    {...props}
-  />
-));
-AppInput.displayName = 'AppInput';
-
-// 🔁 Reusable Button
-const AppButton: React.FC<{
-  children: React.ReactNode;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-  disabled?: boolean;
-  [key: string]: any;
-}> = ({ children, onPress, style, textStyle, ...props }) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={onPress} {...props}>
-    <Text style={[styles.buttonText, textStyle]}>{children}</Text>
-  </TouchableOpacity>
-);
-
-// 🔁 Reusable Link
-const AppLink: React.FC<{
-  children: React.ReactNode;
-  onPress: () => void;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-}> = ({ children, onPress, style, textStyle, ...props }) => (
-  <TouchableOpacity style={style} onPress={onPress} {...props}>
-    <Text style={[styles.linkText, textStyle]}>{children}</Text>
-  </TouchableOpacity>
-);
-
-// 🧠 Login Screen
 const LoginScreen = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -80,7 +33,7 @@ const LoginScreen = () => {
     try {
       await loginUser(email, password);
       Alert.alert('Success', 'Login successful!');
-      router.replace('/(tabs)'); // ✅ Navigates into the tab layout
+      router.replace('/(tabs)');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -119,7 +72,7 @@ const LoginScreen = () => {
       </AppButton>
 
       <AppLink onPress={() => router.push('/signup')}>
-        Don’t have an account? Sign Up
+        Don't have an account? Sign Up
       </AppLink>
     </View>
   );
@@ -127,7 +80,6 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-// 🎨 Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -153,45 +105,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: theme.fontFamily.regular,
   },
-  input: {
-    width: '100%',
-    height: theme.inputHeight,
-    paddingHorizontal: theme.spacing.medium,
-    borderWidth: 1,
-    borderColor: theme.colors.inputBorder,
-    borderRadius: theme.borderRadius,
-    backgroundColor: theme.colors.inputBackground,
-    marginBottom: theme.spacing.small,
-    fontSize: theme.fontSize.medium,
-    color: theme.colors.text,
-    fontFamily: theme.fontFamily.regular,
-  },
   info: {
     fontSize: theme.fontSize.small,
     color: theme.colors.textSecondary,
     marginBottom: theme.spacing.medium,
     width: '100%',
-    fontFamily: theme.fontFamily.regular,
-  },
-  button: {
-    width: '100%',
-    height: theme.buttonHeight,
-    backgroundColor: theme.colors.primary,
-    borderRadius: theme.borderRadius,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: theme.spacing.medium,
-  },
-  buttonText: {
-    color: theme.colors.buttonText,
-    fontSize: theme.fontSize.large,
-    fontWeight: 'bold',
-    fontFamily: theme.fontFamily.regular,
-  },
-  linkText: {
-    marginTop: theme.spacing.medium,
-    color: theme.colors.link,
-    fontSize: theme.fontSize.medium,
     fontFamily: theme.fontFamily.regular,
   },
 });
