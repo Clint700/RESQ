@@ -9,10 +9,10 @@ exports.getCompletion = async (prompt) => {
     const response = await axios.post(
       API_URL,
       {
-        model: "gpt-4", // ✅ Upgrade to GPT-4 (or "gpt-4-turbo" for speed + cost-effective)
+        model: "gpt-4",
         messages: [{ role: "user", content: prompt }],
-        max_tokens: 1000, // ✅ Allow longer, richer responses
-        temperature: 0.7, // ✅ Balanced creativity
+        max_tokens: 1000, 
+        temperature: 0.7, 
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0
