@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { AuthProvider } from '@context/AuthContext';
 import { LocationProvider } from '@context/LocationContext';
 import { View } from 'react-native';
+import { ProfileProvider } from '@context/ProfileContext'; // Adjust the path as needed
 
 // Prevent splash from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -37,6 +38,7 @@ export default function Layout() {
   return (
     <AuthProvider>
       <LocationProvider>
+      <ProfileProvider>
         <Stack screenOptions={{ headerShown: false }}>
           {/* Tabs must match the folder (tabs)/index.tsx */}
           <Stack.Screen name="(tabs)/index" />
@@ -48,6 +50,7 @@ export default function Layout() {
           <Stack.Screen name="map" />
           <Stack.Screen name="add-contact" />
         </Stack>
+        </ProfileProvider>
       </LocationProvider>
     </AuthProvider>
   );

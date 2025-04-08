@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
-    "lib": [
-      "esnext"
-    ],
+    "module": "NodeNext",
+    "lib": ["esnext"],
     "jsx": "react-native",
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,7 +12,7 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node16", // ✅ this is fine (or "nodenext" if you prefer)
     "baseUrl": ".",
     "paths": {
       "@/*": ["./app/*"],
@@ -26,7 +24,8 @@
       "@types/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"],
       "@context/*": ["src/context/*"]
-    }
+    },
+    "types": ["react", "react-native"] // ✅ helps auto-resolve types
   },
   "exclude": [
     "node_modules",

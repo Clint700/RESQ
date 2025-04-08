@@ -6,68 +6,98 @@ import MapStack from './MapStack';
 import ChatbotScreen from '@screens/ChatbotScreen';
 import EmergencyScreen from '@screens/EmergencyScreen';
 import ContactScreen from '@screens/ContactScreen';
+import ProfileScreen from '@screens/ProfileScreen';
 import { theme } from '@styles/theme';
+import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName = 'map';
-          if (route.name === 'Chatbot') iconName = 'chatbubble-ellipses';
-          if (route.name === 'Emergency') iconName = 'warning';
-          if (route.name === 'Contact') iconName = 'mail';
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'gray',
-        tabBarInactiveTintColor: 'black',
-        tabBarStyle: {
-          backgroundColor: theme.colors.background,
-          borderTopColor: 'transparent',
-        },
-        tabBarLabelStyle: {
-          fontSize: theme.fontSize.small,
-        },
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen name="Map" component={MapStack} />
-      <Tab.Screen name="Chatbot" component={ChatbotScreen} />
-      <Tab.Screen
-        name="Emergency"
-        component={EmergencyScreen}
-        options={{
-          title: 'Emergency🚨', // This is the title shown in the header
-          headerShown: true,              // Show the header
-          headerTitleAlign: 'center',     // Optional: center the title on iOS
+      screenOptions={({ route }) => {
+        let iconName: string = 'map';
+
+        switch (route.name) {
+          case 'Chatbot':
+            iconName = 'chatbubble-ellipses-outline';
+            break;
+          case 'Emergency':
+            iconName = 'warning-outline';
+            break;
+          case 'Contact':
+            iconName = 'people-outline';
+            break;
+          case 'Profile':
+            iconName = 'person-circle-outline';
+            break;
+          case 'Map':
+          default:
+            iconName = 'map-outline';
+        }
+
+        return {
+          tabBarIcon: ({ color, size }) => (
+            <Icon name={iconName} size={size} color={color} />
+          ),
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: {
+            backgroundColor: theme.colors.background,
+            borderTopColor: 'transparent',
+            shadowColor: '#000',
+            shadowOpacity: 0.05,
+            shadowOffset: { width: 0, height: -3 },
+            shadowRadius: 8,
+            elevation: 8,
+            height: Platform.OS === 'ios' ? 80 : 60,
+            paddingBottom: Platform.OS === 'ios' ? 20 : 8,
+            paddingTop: 4,
+          },
+          tabBarLabelStyle: {
+            fontSize: theme.fontSize.small,
+            fontWeight: '500',
+            marginBottom: Platform.OS === 'ios' ? 4 : 0,
+          },
+          headerShown: true,
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: theme.colors.background,
+            shadowOpacity: 0,
+            elevation: 0,
           },
           headerTitleStyle: {
             fontSize: theme.fontSize.title,
             fontWeight: 'bold',
             color: theme.colors.primary,
           },
-        }}
-      />
-      <Tab.Screen 
-      name="Contact" 
-      component={ContactScreen} 
-      options={{
-        title: '📞 Contacts', // This is the title shown in the header
-        headerShown: true,              // Show the header
-        headerTitleAlign: 'center',     // Optional: center the title on iOS
-        headerStyle: {
-          backgroundColor: theme.colors.background,
-        },
-        headerTitleStyle: {
-          fontSize: theme.fontSize.title,
-          fontWeight: 'bold',
-          color: theme.colors.primary,
-        },
+        };
       }}
+    >
+      <Tab.Screen
+        name="Map"
+        component={MapStack}
+        options={{ title: 'Map' }}
+      />
+      <Tab.Screen
+        name="Chatbot"
+        component={ChatbotScreen}
+        options={{ title: 'Chatbot' }}
+      />
+      <Tab.Screen
+        name="Emergency"
+        component={EmergencyScreen}
+        options={{ title: 'Emergency' }}
+      />
+      <Tab.Screen
+        name="Contact"
+        component={ContactScreen}
+        options={{ title: 'Contacts' }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: 'Profile' }}
       />
     </Tab.Navigator>
   );
