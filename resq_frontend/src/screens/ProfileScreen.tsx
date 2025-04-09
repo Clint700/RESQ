@@ -8,6 +8,7 @@ import {
   ScrollView,
   Platform,
   Alert,
+  Image,
 } from 'react-native';
 import AppButton from '@components/common/AppButton';
 import { useProfile } from '@context/ProfileContext';
@@ -18,6 +19,7 @@ const ProfileScreen = () => {
   if (!profileContext) {
     throw new Error('ProfileContext is null. Ensure the provider is correctly set up.');
   }
+
   const { profile, saveProfile } = profileContext;
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
   const [isEditing, setIsEditing] = useState(false);
@@ -47,15 +49,28 @@ const ProfileScreen = () => {
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>👤 My Profile</Text>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.title}></Text>
+
+        <View style={styles.avatarContainer}>
+          <Image
+            source={require('/Users/clinton/RESQ-Project/resq_frontend/assets/images/icon.png')}
+            style={styles.avatar}
+          />
+        </View>
 
         {isEditing ? (
           <>
             {(['name', 'email', 'phone'] as const).map((field) => (
               <TextInput
                 key={field}
-                placeholder={field === 'phone' ? 'Phone Number' : field.charAt(0).toUpperCase() + field.slice(1)}
+                placeholder={
+                  field === 'phone' ? 'Phone Number' : field.charAt(0).toUpperCase() + field.slice(1)
+                }
                 value={form[field]}
                 onChangeText={(text) => handleChange(field, text)}
                 style={styles.input}
@@ -72,7 +87,7 @@ const ProfileScreen = () => {
             <AppButton
               onPress={() => {
                 setIsEditing(false);
-                setForm(profile || { name: '', email: '', phone: '' }); // reset on cancel
+                setForm(profile || { name: '', email: '', phone: '' });
               }}
               style={styles.cancelButton}
             >
@@ -115,7 +130,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: theme.spacing.large,
     backgroundColor: theme.colors.background,
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: theme.fontSize.title + 2,
@@ -124,7 +139,30 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.large,
     color: theme.colors.primary,
   },
+  avatarContainer: {
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    backgroundColor: theme.colors.inputBackground,
+    overflow: 'hidden',
+    marginBottom: theme.spacing.large,
+    borderWidth: 2,
+    borderColor: theme.colors.inputBorder,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  avatar: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
   input: {
+    width: '100%',
     borderWidth: 1,
     borderColor: theme.colors.inputBorder,
     borderRadius: 12,
@@ -140,20 +178,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 14,
     marginTop: theme.spacing.small,
+    width: '100%',
   },
   cancelButton: {
     backgroundColor: theme.colors.secondary,
     borderRadius: 10,
     paddingVertical: 14,
     marginTop: theme.spacing.small,
+    width: '100%',
   },
   editButton: {
     backgroundColor: theme.colors.primaryLight,
     paddingVertical: 14,
     borderRadius: 10,
     marginTop: theme.spacing.large,
+    width: '100%',
   },
   card: {
+    width: '100%',
     backgroundColor: theme.colors.card,
     borderRadius: 12,
     padding: theme.spacing.large,

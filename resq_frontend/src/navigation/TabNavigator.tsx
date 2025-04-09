@@ -82,7 +82,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Chatbot"
         component={ChatbotScreen}
-        options={{ title: 'Chatbot' }}
+        options={{ title: 'Chatbot', headerShown: false}}
       />
       <Tab.Screen
         name="Emergency"
