@@ -3,10 +3,10 @@ const db = require("../connection");
 const userData = require("../data/test-data/users");
 const contactData = require("../data/test-data/contacts");
 const alertData = require("../data/test-data/alerts");
- 
+const smsLogData = require("../data/test-data/smsLogs");
 
 const seed = async () => {
-  await db.query(`DROP TABLE IF EXISTS alerts, emergency_contacts, users CASCADE;`);
+  await db.query(`DROP TABLE IF EXISTS sms_logs, alerts, emergency_contacts, users CASCADE;`);
 
   await db.query(`
     CREATE TABLE users (
@@ -36,6 +36,19 @@ const seed = async () => {
     );
   `);
 
+  await db.query(`
+    CREATE TABLE sms_logs (
+      id SERIAL PRIMARY KEY,
+      alert_id INTEGER REFERENCES alerts(id) ON DELETE CASCADE,
+      contact_id INTEGER REFERENCES emergency_contacts(id) ON DELETE CASCADE,
+      message_sid TEXT,
+      to_number TEXT,
+      status TEXT,
+      error_code TEXT,
+      error_message TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
 
   const userValues = userData.map(({ email, password }) => [email, password]);
   const insertUsersQuery = format(
@@ -55,10 +68,10 @@ const seed = async () => {
     phone_number,
   ]);
   const insertContactsQuery = format(
-    "INSERT INTO emergency_contacts (email, name, phone_number) VALUES %L;",
+    "INSERT INTO emergency_contacts (email, name, phone_number) VALUES %L RETURNING *;",
     contactValues
   );
-  await db.query(insertContactsQuery);
+  const insertedContacts = await db.query(insertContactsQuery);
 
   const alertValues = alertData.map(({ message, location, status }) => [
     message,
@@ -66,10 +79,34 @@ const seed = async () => {
     status,
   ]);
   const insertAlertsQuery = format(
-    "INSERT INTO alerts (message, location, status) VALUES %L;",
+    "INSERT INTO alerts (message, location, status) VALUES %L RETURNING *;",
     alertValues
   );
   await db.query(insertAlertsQuery);
+
+  // Optionally insert a test log into sms_logs here if needed
+  const smsLogValues = smsLogData.map(
+    ({ alert_id, contact_id, message_sid, to_number, status, error_code, error_message }) => [
+      alert_id,
+      contact_id,
+      message_sid,
+      to_number,
+      status,
+      error_code,
+      error_message,
+    ]
+  );
+  
+  const insertSmsLogsQuery = format(
+    `
+      INSERT INTO sms_logs
+        (alert_id, contact_id, message_sid, to_number, status, error_code, error_message)
+      VALUES %L RETURNING *;
+    `,
+    smsLogValues
+  );
+  
+  await db.query(insertSmsLogsQuery);
 };
 
 module.exports = seed;
