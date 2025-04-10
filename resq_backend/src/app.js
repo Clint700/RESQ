@@ -5,6 +5,7 @@ const emergencyRoutes = require('./routes/emergencyRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const botRoutes = require('./routes/botRoutes');
 const endpointRoutes = require('./routes/endpointRoutes');
+const webhookRoutes = require('./routes/webhookRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
 const cors = require('cors');
 
@@ -19,6 +20,7 @@ app.use('/alerts', emergencyRoutes);
 app.use('/contacts', contactRoutes);
 app.use('/bot', botRoutes);
 app.use('/endpoints', endpointRoutes);
+app.use('/webhooks', webhookRoutes);
 
 // Error Handling Middleware
 app.use(errorHandler);
