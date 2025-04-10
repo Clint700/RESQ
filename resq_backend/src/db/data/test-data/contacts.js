@@ -2,7 +2,7 @@ module.exports = [
     {
       email: 'testuser1@example.com',
       name: 'Alice',
-      phone_number: '123-456-7890',
+      phone_number: '+447496550496',
     },
     {
       email: 'testuser2@example.com',
